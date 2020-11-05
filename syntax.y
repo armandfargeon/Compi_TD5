@@ -35,8 +35,9 @@ void yyerror(const char *s);
 %left GE LE EQ NE '>' '<'
 %left '+' '-'
 %left '*' '/'
-%left KIF KELSE KWHILE KLBRACE KRBRACE
 %nonassoc UMINUS
+%nonassoc KIF
+%nonassoc KELSE
 
 //                      Non terminal types
 %type   <node>          stmt expr stmt_list var
