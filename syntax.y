@@ -16,7 +16,7 @@
 // Yacc prototypes
 int  yylex(void);
 void yyerror(const char *s);
-
+extern int yylineno;
 #define  YYERROR_VERBOSE 1      // produce verbose syntax error messages
 %}
 
@@ -92,7 +92,7 @@ var:       IDENT                { $$ = make_ident($1); }
 
 
 %%
-void yyerror(const char *s)     { error_msg("%s\n",s); exit(1); }
+void yyerror(const char *s)     { error_msg("%s line no %d \n",s, yylineno); exit(1); }
 int  yywrap(void)               { return 1;          } // to avoid linking with -ldl
 
 int  main(int argc, char* argv[]) {

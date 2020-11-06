@@ -24,7 +24,7 @@
 #define PROD1F(op,v)	 printf("\t%s\t%g\n", op, v)    // v is a float
 #define PROD1S(op,v)	 printf("\t%s\t%s\n", op, v)    // v is a string
 #define PROD1L(op,v)	 printf("\t%s\tL%03d\n", op, v) // v is a label
-
+static int i = 0;
 
 // ----------------------------------------------------------------------
 //		Code production
@@ -42,7 +42,6 @@ void produce_code(ast_node *n) {
         case k_operator: {
             ast_node **op = OPER_OPERANDS(n);
             int arity = OPER_ARITY(n);
-            int i = 0;
             switch (OPER_OPERATOR(n)) {
                 case EQ:
                     produce_code(op[0]);
@@ -104,14 +103,18 @@ void produce_code(ast_node *n) {
 
                 case KIF:
                     produce_code(op[0]);
-                    PROD1L("jumpz", i);
+                    //jump to the end (or else)
+                    int end = i++;
+                    PROD1L("jumpz", end);
                     produce_code(op[1]);
                     if(arity == 3) {
-                        PROD1L("jump", ++i);
-                        LABEL(i-1);
+                        int startElse = end;
+                        end = i++;
+                        PROD1L("jump", end);
+                        LABEL(startElse);
                         produce_code(op[2]);
                     }
-                    LABEL(i);
+                    LABEL(end);
                     break;
 
                 case KELSE:
@@ -119,15 +122,18 @@ void produce_code(ast_node *n) {
                     break;
 
                 case KWHILE:
-                    LABEL(i);
+                    ;int start = i++;
+                    int end_w = i++;
+                    LABEL(start);
                     produce_code(op[0]);
                     //if condition is false, jump to the end
-                    PROD1L("jumpz", ++i);
+                    PROD1L("jumpz", end_w);
                     //expr inside the while
                     produce_code(op[1]);
                     //back to the while label
-                    PROD1L("jump", i-1);
-                    LABEL(i);
+                    PROD1L("jump", start);
+                    //continue after the end of the loop
+                    LABEL(end_w);
                     break;
 
                 case KPRINT:
