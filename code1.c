@@ -104,11 +104,12 @@ float eval(ast_node *n) {
         case EQ:        return eval(op[0]) == eval(op[1]);
 
 	/* Statements */
-	case ';':	if (arity == 0) return 0;
-			else {
+	case ';':
+	    if (arity == 0) return 0;
+	    else {
 			  eval(op[0]);
 			  return eval(op[1]);
-			}
+		}
 
 	case KPRINT:	printf("%g\n", eval(op[0])); return 0;
 	case '=':	return set_ident_value(VAR_NAME(op[0]), eval(op[1]));
@@ -129,5 +130,5 @@ float eval(ast_node *n) {
 //			argument
 // ---------------------------------------------------------------------
 void produce_code(ast_node *n) {
-  eval(n);
+  printf("%g\n",eval(n));
 }
