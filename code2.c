@@ -44,9 +44,8 @@ void produce_code(ast_node *n) {
             int arity = OPER_ARITY(n);
             switch (OPER_OPERATOR(n)) {
                 case UMINUS:
-                    PROD1F("push",  (-1.0));
                     produce_code(op[0]);
-                    PROD0("mul");
+                    PROD0("negate");
                     break;
                 case EQ:
                     produce_code(op[0]);

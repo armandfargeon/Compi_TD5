@@ -83,11 +83,14 @@ float eval(ast_node *n) {
   case KIF:
         if(eval(op[0])) {
           eval(op[1]);
-        
-        }
+        } else
         if(arity == 3){
           eval(op[2]);
         }
+        return 0;
+
+  case KELSE:
+        eval(op[0]);
         return 0;
         
 	/* Expressions */
