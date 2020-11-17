@@ -52,6 +52,14 @@ class StackMachine:
     # ----- Instructions
     def I_push(self, val):
         self.stack.append(float(val))
+    def I_read(self, var):
+        n = input(str(var) +"? ")
+        try:
+                n = float(n);
+                self.stack.append(n)
+                self.mem[var] = self.stack.pop()
+        except ValueError:
+                die("The input \"" + n +"\" is not a valid number");
     def I_print(self, val):
         print(self.stack.pop())
     def I_stop(self, val):

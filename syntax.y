@@ -29,7 +29,7 @@ extern int yylineno;
 //                      Tokens
 %token  <value>         NUMBER
 %token  <var>           IDENT
-%token                  KWHILE KIF KPRINT KELSE
+%token                  KWHILE KIF KPRINT KELSE KREAD
 
 //                       Precedence rules
 %left GE LE EQ NE '>' '<'
@@ -62,7 +62,8 @@ stmt:
         | '{' stmt_list '}'                { $$ = $2; }
         | KIF '(' expr ')' stmt KELSE stmt { $$ = make_node(KIF, 3, $3, $5, $7 ); }
         | KIF '(' expr ')' stmt              { $$ = make_node(KIF, 2, $3, $5);}
-        | KWHILE '(' expr ')' stmt           { $$ = make_node(KWHILE, 2, $3, $5);} 
+        | KWHILE '(' expr ')' stmt           { $$ = make_node(KWHILE, 2, $3, $5);}
+        | KREAD var ';'                      { $$ = make_node(KREAD, 1, $2);}
         ;
 
 stmt_list:

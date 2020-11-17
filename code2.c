@@ -146,14 +146,16 @@ void produce_code(ast_node *n) {
                     PROD0("print");
                     break;
 
+                case KREAD:
+                    PROD1S("read", VAR_NAME(op[0]));
+                    break;
+
                 case ';':
                     if (arity == 0) break;
                     else {
                         produce_code(op[0]);
                         produce_code(op[1]);
                     }
-
-
             }
 
         }

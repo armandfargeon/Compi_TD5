@@ -113,6 +113,15 @@ float eval(ast_node *n) {
 
 	case KPRINT:	printf("%g\n", eval(op[0])); return 0;
 	case '=':	return set_ident_value(VAR_NAME(op[0]), eval(op[1]));
+          case KREAD:     {
+              float value;
+              printf("%s? ",  VAR_NAME(op[0]));
+              fflush(stdout);
+              scanf("%f", &value);
+              set_ident_value(VAR_NAME(op[0]), value);
+              return 0;
+          }
+
 	default:        error_msg("Houston, we have a problem: unattended token %d",
 				  OPER_OPERATOR(n));
 			return 0;
@@ -130,5 +139,5 @@ float eval(ast_node *n) {
 //			argument
 // ---------------------------------------------------------------------
 void produce_code(ast_node *n) {
-  printf("%g\n",eval(n));
+  eval(n);
 }

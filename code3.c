@@ -101,6 +101,10 @@ void prod(ast_node *n) {
                 case KPRINT:
                     BOX_K(i++, "print");
                     break;
+                
+                case KREAD:
+                    BOX_K(i++, "read");
+                    break;
 
                 case ';':
                     if (arity == 0) return;

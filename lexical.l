@@ -39,6 +39,8 @@
 
 "print"         		{ return KPRINT; }
 
+"read"                  { return KREAD; }
+
 	/* ---- Idents ---- */
 [a-zA-Z]+			{ yylval.var = strdup(yytext); return IDENT; }
 
